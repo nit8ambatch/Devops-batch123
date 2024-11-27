@@ -1,0 +1,29 @@
+Jenkins
+It is a build tool.
+
+
+ci : continous integration : continous build + continous test 
+old code with new code
+before ci we have time waste and every thing is manual work.
+after ci everything is automated.
+
+cd : continous delivery	  : deployment manually to prod env
+cd : continous deployment : deployment automatically to prod env
+
+PIPELINE:
+STEP BY STEP EXECUTION OF A PARTICULAR PROCESS.
+SERIES OF EVENTS INTERLINKED WITH EACHOTHER.
+
+CODE -- > BUILD -- > TEST -- >  DEPLOY
+
+ENV:
+DEV	: DEVELOPERS
+QA	: TESTERS
+UAT	: CLIENT
+
+THE ABOVE ENVS ARE CALLED AS PRE-PROD OR NON-PROD
+
+PROD	: USER
+PROD ENV IS ALSO CALLED AS LIVE ENV
+
+
