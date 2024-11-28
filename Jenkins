@@ -26,4 +26,34 @@ THE ABOVE ENVS ARE CALLED AS PRE-PROD OR NON-PROD
 PROD	: USER
 PROD ENV IS ALSO CALLED AS LIVE ENV
 
+Day 2:-
+
+Jenkins port number - 8080
+ssh port number -22
+http port number - 80
+https - 443
+mysql -3306
+rdp - 3389
+
+To lunch instance for Jenkins
+
+* Go to aws console and login
+* Go to search box type ec2 and select.
+* launch instance 
+ step 1 - select amazon-linux 2 hvm (ami)
+ step 2 - select instance type t2.micro
+ step 3 - create new key pair in .pem
+ step 4 - create new security group  
+           go to edit and provide ssh and all traffic
+ step 5 - launch instance.
+* Go to instance select connect and go through ssh client-->copy example
+Go to browser - jenkins.io - click on download
+* Download Jenkins 2.479.2 LTS for: redhat/centos/fedora
+   select that
+
+amazon-linux -- yum
+Ubunut      --- apt
+redhat      --- rpm
+
+
 
