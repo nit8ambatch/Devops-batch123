@@ -72,6 +72,15 @@ STEP-4: STARTING THE SERVICE (any service will be on stopped state when its inst
 systemctl start jenkins
 systemctl status jenkins
 
+try this installation its workig
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+amazon-linux-extras install java-openjdk11 -y
+yum install git maven jenkins -y
+systemctl start jenkins
+systemctl status jenkins
+
+
 STEP-5: CONNECTING TO JENKINS
 Public-ip:8080 -- > browser
 
