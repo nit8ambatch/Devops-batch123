@@ -55,5 +55,23 @@ amazon-linux -- yum
 Ubunut      --- apt
 redhat      --- rpm
 
+JENKINS: PORT - 8080
 
+SETUP:
+STEP-1: GETTING REP0 (jenkins.io -- > downloads -- > Redhat)
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+STEP-2: INSTALLING JAVA 11
+amazon-linux-extras install java-openjdk11 -y
+
+STEP-3: INSTALLING GIT JENKINS MAVEN 
+yum install git maven jenkins -y
+
+STEP-4: STARTING THE SERVICE (any service will be on stopped state when its installed)
+systemctl start jenkins
+systemctl status jenkins
+
+STEP-5: CONNECTING TO JENKINS
+Public-ip:8080 -- > browser
 
