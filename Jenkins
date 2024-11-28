@@ -52,7 +52,7 @@ Go to browser - jenkins.io - click on download
    select that
 
 amazon-linux -- yum
-Ubunut      --- apt
+Ubuntu     --- apt
 redhat      --- rpm
 
 JENKINS: PORT - 8080
