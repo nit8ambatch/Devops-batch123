@@ -1,0 +1,176 @@
+LINUX: Free and Open-source OS
+OS: Operating system -- > communication blw user & system.
+
+TYPES OF OS:
+1. WINDOWS
+2. LINUX
+3. MAC OS
+
+LINUX COMPONENTS:
+
+1. KERNEL: Manages hardware components (CPU, MEMORY, etc --)
+           The lowest level of OS.
+
+2. DAEMON: Manage the Background Service (Lights, Sounds, schedule)
+           While starting the system.
+
+3. SHELL: Manage the User Inputs (Command, Script, programs)
+          Takes input from the user and executes and gives the output.
+           
+
+LINUX OS FLAVOURS/DISTRIBUTIONS:
+
+IPHONE: 14, 14+, 14 PRO, 14 PRO MAX,
+VERSIONS: 14, 13, 12, 11
+
+MAIN:
+RedHat
+Ubuntu  (75%)
+Amazon Linux
+
+MODES:
+1. GUI: Its having the Dashboard
+2. CLI: Command line interface (Works with commands only)
+
+HISTORY:
+1991 -- > Linus Torvalds -- > student from finland.
+1991 -- > Want to create an OS that works like UNIX.
+LINUX is Written in C Programming. (1972)
+Firstly he wanted to name it as 'Freax' but later it became 'Linux'.
+1992 -- > Linxu's initial version was released. 
+TOTAL PROGRAMMING LANGUAGES: 700 +
+
+OPEN SOURCE:
+It is free no need to pay money.
+It is available publically.
+We can change the code.
+we can give a copy of the code to other people.
+
+ADVANTAGES:
+It's free and open-source.
+Multi-user based.
+Fewer Bugs.
+Better Performance.
+It can be used for all programming languages.
+It will hang very rarely.
+
+===========================================================================
+
+DAY-02: SERVER & COMMANDS
+
+MOBAXTERM LINK: https://download.mobatek.net/2312023031823706/MobaXterm_Portable_v23.1.zip
+
+NOTE: Go to the path where you have keypair
+CONNECT: SELECT THE SERVER -- > CONNECT -- > SSH CLINET -- > COPY TO TERMINAL
+PASTE: 1. RIGHT CLICK 2. SHIFT + INSERT
+
+
+COMMANDS:
+ec2-user: default user       root: admin
+*	: refers all in linux
+
+
+sudo -i		: switch to root user form ec2-user
+clear/ctrl + l	: to clear the screen
+touch file1	: to create a file
+ll/ls		: to list the files
+ll -a / ls -a	: to list the hidden files
+pwd		: to show the present working directory
+cat file1	: to show the content in a file
+more file1	: to show the content in a file
+cat>file1	: to insert the content
+enter, ctrl d	: to save the content
+cat>>file1	: to insert the content more than one time.
+
+cp file1 file2	: to copy the content from file1 to file2
+mv file1 file5	: to rename file1 to file5
+rm file2	: to remove file2
+rm file4 -f	: to remove file4 forcefully
+rm * -f		: to remove all files forcefully
+
+touch java{1..5}: to create series of files
+rm j* -f	: to remove all the files starting with j
+wc file1	: to see number of lines, words & characters.
+
+head file2	: to print top 10 lines
+head -7 file2	: to print top 7 lines
+head -5 file2	: to print top 5 lines
+
+tail file2	: to print bottom 10 lines
+tail -7 file2	: to print bottom 7 lines
+tail -5 file2	: to print bottom 5 lines
+sed -n '6,16p' file2 : to print form line numbers 6 to 16
+
+FOLDERS = DIRECTORIES
+
+mdkir dir1	: to create a folder
+cd dir1		: to go inside the directory
+cd ..		: to go back one directory
+rmdir dir1	: to remove a directory
+
+echo "hai raham" > file3
+===============================================================
+
+
+DAY-03:
+
+STATIC: We can't modify
+DYNAMIC: We can mofify
+
+VI/VIM EDITOR: Used to edit files and insert content.
+i: used to modify/insert content
+esc: to get out from insert mode
+
+3. SAVE MODE:
+
+:w	: to save 
+:q	: to quit 
+:wq	: to save & quit
+!	: forcefully
+
+2. INSERT MODE:
+
+A	: End of line
+I	: Starting of line
+O	: Create new line above existing line
+o	: Create new line below existing line
+
+1. COMMAND MODE:
+
+yy	: copies single line
+p	: paste single line
+dd	: delete single line
+u	: undo
+
+nyy	: copies n lines
+np	: pastes n line
+ndd	: delete n lines
+nu	: undo n times
+
+gg	: top of file
+shift+g	: bottom of file
+:15	: to go to line 15
+:set number: print lines inside the file
+
+===========================================================================================================
+
+HARDWARE:
+
+cat /proc/meminfo	: to show memory information
+lsmem			: to show memory information
+cat /proc/cpuinfo	: to show cpu information
+lscpu			: to show cpu information
+cat /etc/os-release	: to print flavoure
+
+
+fdisk -l		: to show the ebs volume info
+lsblk			: to show the ebs volume info
+
+df			: to show the mount point
+df -m			: to show the mount point in mb
+
+free			: to show how much ram is available
+free -m			: to show how much ram is available
+
+yum install lshw -y	: to install the package 
+lshw			: to show the hardware information.L
