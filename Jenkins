@@ -84,3 +84,28 @@ systemctl status jenkins
 STEP-5: CONNECTING TO JENKINS
 Public-ip:8080 -- > browser
 
+ vim jenkins.sh
+    3  sh jenkins.sh
+    4  clear
+    5  cat /var/lib/jenkins/secrets/initialAdminPassword
+    6  cd /var/lib/jenkins/workspace/swiggy
+    7  ll
+    8  cat pom.xml
+    9  ll
+   10  cat Jenkinsfile
+   11  ll
+   12  git clone https://github.com/nit8ambatch/netflix-webapp-code.git
+   13  ll
+   14  cd netflix-webapp-code/
+   15  ll
+   16  cd ..
+   17  ll
+   18  clear
+   19  cat /etc/passwd
+   20  df -h
+   21  free -h
+   22  ll
+   23  rm -rf mani nani sony aws
+   24  ll
+
+
