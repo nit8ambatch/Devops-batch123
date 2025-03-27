@@ -173,4 +173,12 @@ free			: to show how much ram is available
 free -m			: to show how much ram is available
 
 yum install lshw -y	: to install the package 
-lshw			: to show the hardware information.L
+lshw			: to show the hardware information.L==
+================================================================================================================================================
+
+
+to remove buffer cache in linux
+
+sudo sync; echo 1 > /proc/sys/vm/drop_caches
+sudo sync; echo 2 > /proc/sys/vm/drop_caches
+sudo sync; echo 3 > /proc/sys/vm/drop_caches
