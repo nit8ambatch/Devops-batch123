@@ -118,3 +118,134 @@ sudo apt-get install fontconfig openjdk-17-jre -y
 sudo apt-get install jenkins -y
 systemctl start jenkins
 systemctl status jenkins
+
+
+To install jenkins setup in ubununt install below given commands
+
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \ https://pkg.jenkins.io/debian-stable binary/ | sudo tee \/etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get install fontconfig openjdk-17-jre -y
+sudo apt-get install jenkins -y
+systemctl start jenkins
+systemctl status jenkins
+
+============================================================================================================
+
+To install jenkins setup in amazon-linux below given commnds
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+amazon-linux-extras install java-openjdk11 -y
+yum install git maven jenkins -y
+systemctl start jenkins
+systemctl status jenkins
+
+###########################################################################################################
+
+vim jenkins.sh
+insert mode 
+:wq
+
+if we run manually in fre style project
+''''
+#!/bin/bash
+
+# Get total and used memory
+TOTAL_MEM=$(free -m | awk '/^Mem:/{print $2}')
+USED_MEM=$(free -m | awk '/^Mem:/{print $3}')
+FREE_MEM=$(free -m | awk '/^Mem:/{print $4}')
+THRESHOLD=20  # Set threshold for alert (in percentage)
+
+# Calculate memory usage percentage
+MEM_USAGE=$(( 100 * USED_MEM / TOTAL_MEM ))
+
+# Display memory usage
+echo "Total Memory: ${TOTAL_MEM} MB"
+echo "Used Memory: ${USED_MEM} MB"
+echo "Free Memory: ${FREE_MEM} MB"
+echo "Memory Usage: ${MEM_USAGE}%"
+
+# Check if memory usage exceeds the threshold
+if [ "$MEM_USAGE" -ge "$THRESHOLD" ]; then
+    echo "WARNING: Memory usage is above ${THRESHOLD}%!"
+fi
+''''''
+
+pipeline {
+    agent any
+    
+    stages {
+        stage ("stage-1") {
+            steps {
+                sh 'touch file1 file2'
+                sh 'pwd'
+                sh 'mkdir d1'
+            }
+        }
+    }
+}
+
+passs
+pipeline agent any stages stage and steps
+
+pipeline {
+    agent any
+   
+    stages{
+        stage ('build'){
+            steps {
+                sh '''
+                #!/bin/bash
+
+                # Get total and used memory
+                TOTAL_MEM=$(free -m | awk '/^Mem:/{print $2}')
+                USED_MEM=$(free -m | awk '/^Mem:/{print $3}')
+                FREE_MEM=$(free -m | awk '/^Mem:/{print $4}')
+                THRESHOLD=20  # Set threshold for alert (in percentage)
+
+                # Calculate memory usage percentage
+                MEM_USAGE=$(( 100 * USED_MEM / TOTAL_MEM ))
+
+                # Display memory usage
+                echo "Total Memory: ${TOTAL_MEM} MB"
+                echo "Used Memory: ${USED_MEM} MB"
+                echo "Free Memory: ${FREE_MEM} MB"
+                echo "Memory Usage: ${MEM_USAGE}%"
+
+                # Check if memory usage exceeds the threshold
+                if [ "$MEM_USAGE" -ge "$THRESHOLD" ]; then
+                     echo "WARNING: Memory usage is above ${THRESHOLD}%!"
+                fi
+                '''
+            }
+        }
+    }    
+}  
+
+pipeline {
+    agent any
+   
+    stages{
+        stage ('Bash script'){
+            steps {
+                sh '''
+                #!/bin/bash
+
+                # Set the CPU usage threshold (in percentage)
+                THRESHOLD=80
+                # Get the current CPU usage (ignoring the first line)
+                CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8}')
+                # Display CPU usage
+                echo "Current CPU Usage: ${CPU_USAGE}%"
+                # Check if CPU usage exceeds the threshold
+                if (( $(echo "$CPU_USAGE > $THRESHOLD" | bc -l) )); then
+                    echo "WARNING: CPU usage is above ${THRESHOLD}%!"
+                fi
+                '''
+            }
+        }
+    }    
+}  
+
