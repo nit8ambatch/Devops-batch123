@@ -72,6 +72,22 @@ STEP-4: STARTING THE SERVICE (any service will be on stopped state when its inst
 systemctl start jenkins
 systemctl status jenkins
 
+#STEP-1: INSTALLING GIT JAVA-1.8.0 MAVEN 
+yum install git java-1.8.0-openjdk maven -y
+
+#STEP-2: GETTING THE REPO (jenkins.io --> download -- > redhat)
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+#STEP-3: DOWNLOAD JAVA11 AND JENKINS
+sudo yum install java-17-amazon-corretto -y
+yum install jenkins -y
+update-alternatives --config java
+
+#STEP-4: RESTARTING JENKINS (when we download service it will on stopped state)
+systemctl start jenkins.service
+systemctl status jenkins.service
+
 try this installation its workig
 sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
 sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
@@ -249,3 +265,83 @@ pipeline {
     }    
 }  
 
+pipeline {
+    agent any 
+    
+    stages{
+        stage('checkout') {
+            steps {
+              git 'https://github.com/devopsbyraham/jenkins-java-project.git'
+            }
+        }
+    }
+}
+
+pipeline {
+    agent any 
+    
+    stages{
+        stage('checkout') {
+            steps {
+              git 'https://github.com/devopsbyraham/jenkins-java-project.git'
+            }
+        }
+        stage('test') {
+            steps {
+                echo "my code is tested"
+            }
+        }
+        stage('deploy') {
+            input {
+               message "Can We Continue ?"
+               ok "Yes We Can Continue"
+        }
+            steps {
+                echo "my code is deployed"
+            }
+        }
+    }
+}
+
+tOMCAT SET UP BY USING MASTER AN SLAVE
+ amazon-linux-extras install epel -y
+    2  amazon-linux-extras install java-openjdk11 -y
+    3  yum install jenkins -y
+    4    sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    5    sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+    6  yum install jenkins -y
+    7  systemctl start jenkins.service
+    8  systemctl status jenkins.service
+    9  yum install git java-1.8.0-openjdk maven -y
+   10  java -version
+   11  update-alternatives --config java
+   12  java -version
+   13  update-alternatives --config java
+   14  java -version
+   15  update-alternatives --config java
+   16  java -version
+   17  update-alternatives --config java
+   18  histroy
+   19  history
+
+slave: 
+
+ 1  amazon-linux-extras install java-openjdk11 -y
+    2  hostname -i
+    3  yum install git java-1.8.0-openjdk maven -y
+    4  java -version
+    5  wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.74/bin/apache-tomcat-9.0.74.tar.gz
+    6  ll
+    7  tar -zxvf apache-tomcat-9.0.74.tar.gz
+    8  cd apache-tomcat-9.0.74/
+    9  ll
+   10  vim webapps/manager/META-INF/context.xml
+   11  vim conf/tomcat-users.xml
+   12  cd bin/
+   13  ll
+   14  ./startup.sh
+   15  ./shutdown.sh
+   16  ./startup.sh
+   17  update-alternatives --config java
+   18  java -version
+   19  history
