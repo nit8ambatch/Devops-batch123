@@ -117,5 +117,304 @@ ansible-playbook playbook1.yml
 ...
 
 ======================================================================
+day 3
 
+TAGS: to execute a specific task on the playbook with having a number of tasks.
+
+
+- hosts: all
+  tasks:
+    - name: installing java
+      yum: name=java-1.8.0-openjdk state=present
+      tags: a
+
+    - name: installing tree
+      yum: name=tree state=present
+      tags: b
+
+    - name: installing docker
+      action: yum name=docker state=present
+      tags: c
+
+SINGLE TAG EXECUTION:
+ansible-playbook playbook2.yml --tags c
+ansible-playbook playbook2.yml --tags a
+
+MULTI TAG EXECUTION:
+ansible-playbook playbook2.yml --tags a,c
+
+SKIPPING TAGS:
+ansible-playbook playbook2.yml --skip-tags  "a"
+ansible-playbook playbook2.yml --skip-tags  "b"
+==================================================================
+
+VARIABLE: Used to assign the value which will vary as per the requirement.
+STATIC: Defines inside the playbook.
+DYNAMIC: Passing the variable during executing the playbook.
+
+SINGLE STATIC EXAMPLE:
+- hosts: all
+  vars:
+    a: tree
+  tasks:
+    - name: installing java
+      yum: name={{a}} state=present
+
+ansible-playbook playbook2.yml
+
+
+MULTIPLE STATIC VARIABLE:
+
+- hosts: all
+  vars:
+    a: tree
+    b: docker
+  tasks:
+    - name: task-1
+      yum: name={{a}} state=present
+
+    - name: task-2
+      yum: name={{b}} state=present
+
+ansible-playbook playbook2.yml
+
+- hosts: all
+  vars:
+    a: tree
+    b: docker
+  tasks:
+    - name: task-1
+      yum: name={{a}} state=present
+      yum: name={{b}} state=present
+
+ansible-playbook playbook2.yml
+
+
+SINGLE DYNAMIC EXAMPLE:
+- hosts: all
+  tasks:
+    - name: installing java
+      yum: name={{a}} state=present
+
+ansible-playbook playbook2.yml --extra-vars "a=maven"
+
+- hosts: all
+  tasks:
+    - name: task-1
+      yum: name={{a}} state=present
+      yum: name={{b}} state=present
+
+ansible-playbook playbook2.yml --extra-vars "a=maven, b=tree"
+
+
+=======================================================================================
+
+LOOPS: will run until it satisfies the condition.
+
+- hosts: all
+  tasks:
+    - name: task-1
+      yum: name={{item}} state=present
+      with_items:
+        - git
+        - maven
+        - docker
+        - httpd
+        - tree
+        - java-1.8.0-openjdk
+
+
+- hosts: all
+  tasks:
+    - name: task-1
+      user: name={{item}} state=present
+      with_items:
+        - user1
+        - user2
+        - user3
+        - user4
+        - user5
+        - user6
+
+===================================================================================
+
+CONDITIONS:
+
+- hosts: all
+  tasks:
+    - name: INSTALLING TREE ON REDHAT
+      command: yum install tree -y
+      when: ansible_os_family == "RedHat"
+    - name: INSTALLING TREE ON UBUNTU
+      command: apt install tree -y
+      when: ansible_os_family == "Debian"
+
+
+- hosts: all
+  tasks:
+    - name: INSTALLING TREE ON REDHAT
+      command: yum install docker -y
+      when: ansible_os_family == "RedHat"
+    - name: INSTALLING TREE ON UBUNTU
+      command: apt install docker -y
+      when: ansible_os_family == "Debian"
+
+
+==================================================================
+
+HANDLERS: one task is linked with another task.
+the task will execute when it will be called by another task.
+will consist of a notification that indicates we need to start another task.
+
+NOTE: Notify and name will be same if not we will get error.
+
+- hosts: all
+  tasks:
+    - name: INSTALLING HTTPD
+      command: yum install httpd -y
+
+    - name: RESTARTINH HTTPD
+      command: systemctl restart httpd
+
+
+- hosts: all
+  tasks:
+    - name: INSTALLING HTTPD
+      command: yum install httpd -y
+      notify: RESTARTING HTTPD
+  handlers:
+    - name: RESTARTING HTTPD
+      command: systemctl restart httpd
+
+- hosts: all
+  tasks:
+    - name: INSTALLING DOCKER
+      command: yum install docker -y
+      notify: RESTARTING DOCKER
+  handlers:
+    - name: RESTARTING DOCKER
+      command: systemctl restart docker
+
+
+==================================================================
+
+VAULT: Used to store the data in encryption format (AES256)
+
+ansible-vault create creds.txt
+ansible-vault edit creds.txt
+ansible-vault rekey creds.txt
+ansible-vault decrypt creds.txt
+ansible-vault encrypt creds.txt
+ansible-vault view creds.txt
+
+NOTE: ansible-vault will encrypt the playbook as well
+so when you encrypt it will ask password and if you want to run the playbook you need to give that password, if not playbook will not be executed.
+
+ansible-vault decrypt playbook2.yml
+
+==================================================================
+CONETNT:
+
+- hosts: all
+  tasks:
+    - name: COPYING THE CONTENT
+      copy:
+        dest: "abc.txt"
+        content: |
+          HAI ALL
+
+
+==================================================================
+
+PYTHON MODULES: Used to manage python libraries on the remote servers.
+
+linux: yum or apt
+Python: pip 
+
+- hosts: all
+  tasks:
+    - name: INSTALLING NumPy
+      pip:
+        name: NumPy
+
+
+- hosts: all
+  tasks:
+    - name: INSTALLING Pandas
+      pip:
+        name: Pandas
+
+==================================================================
+
+RAW VS COMMAND VS SHELL:
+
+RAW: To execute Linux commands as like commands, shell modules.
+
+
+- hosts: all
+  tasks:
+    - name: INSTALLING TREE
+      shell: yum install tree -y
+
+    - name: INSTALLING docker
+      command: yum install docker -y
+
+    - name: INSTALLING maven
+      raw: yum install maven -y
+
+
+==========================================================================
+
+Deployment:-
+
+Netflix Deployment
+
+- hosts: test
+  tasks:
+    - name: installing apache server
+      yum: name=httpd state=present
+
+    - name: activating apache server
+      service: name=httpd state=started
+
+    - name: installing git
+      yum: name=git state=present
+
+    - name: git checkout
+      git:
+        repo: "https://github.com/CleverProgrammers/pwj-netflix-clone.git"
+        dest: "/var/www/html"
+
+Tomcat Deployment
+
+- hosts: all
+  tasks:
+    - name: download tomcat from dlcdn
+      get_url:
+        url: "https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.102/bin/apache-tomcat-9.0.102.tar.gz"
+        dest: "/root/"
+
+    - name: untar the apache file
+      command: tar -zxvf apache-tomcat-9.0.102.tar.gz
+
+
+    - name: rename the tomcat
+      command: mv apache-tomcat-9.0.102 tomcat
+      tags: abc
+
+    - name: install java
+      command: yum install java-1.8.0-openjdk -y
+
+    - name: setting the roles in tomcat-user.xml file
+      template:
+        src: tomcat-users.xml
+        dest: /root/tomcat/conf/tomcat-users.xml
+
+    - name: delete two lines in context.xml
+      template:
+        src: context.xml
+        dest: /root/tomcat/webapps/manager/META-INF/context.xml
+
+    - name: start the tomcat
+      shell: nohup /root/tomcat/bin/startup.sh
 
