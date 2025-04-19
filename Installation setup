@@ -1,0 +1,111 @@
+whatsapp.sh
+
+#! /bin/bash
+yum install httpd git -y
+systemctl start httpd
+systemctl status httpd
+chkconfig httpd on
+cd /var/www/html
+git clone  https://github.com/hamsahmedansari/axiom-whatsapp-ui-homePage.git
+mv axiom-whatsapp-ui-homePage/* .
+tail -100f /var/log/httpd/access_log
+
+============================================================================================================================
+
+tomcat.sh
+
+sudo yum install java-17-amazon-corretto -y
+wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.102/bin/apache-tomcat-9.0.102.tar.gz
+tar -zxvf apache-tomcat-9.0.102.tar.gz
+sed -i '56  a\<role rolename="manager-gui"/>' apache-tomcat-9.0.102/conf/tomcat-users.xml
+sed -i '57  a\<role rolename="manager-script"/>' apache-tomcat-9.0.102/conf/tomcat-users.xml
+sed -i '58  a\<user username="tomcat" password="Admin123" roles="manager-gui, manager-script"/>' apache-tomcat-9.0.102/conf/tomcat-users.xml
+sed -i '59  a\</tomcat-users>' apache-tomcat-9.0.102/conf/tomcat-users.xml
+sed -i '56d' apache-tomcat-9.0.102/conf/tomcat-users.xml
+sed -i '21d' apache-tomcat-9.0.102/webapps/manager/META-INF/context.xml
+sed -i '22d'  apache-tomcat-9.0.102/webapps/manager/META-INF/context.xml
+sh apache-tomcat-9.0.102/bin/startup.sh
+
+
+================================================================================================================================
+
+SWIGGY.SH  
+
+#! /bin/bash
+yum install httpd git -y
+systemctl start httpd
+systemctl status httpd
+cd /var/www/html
+git clone https://github.com/karishma1521success/swiggy-clone.git
+mv swiggy-clone/* .
+tail -100f /var/log/httpd/access_log
+
+
+===================================================================================================================================
+
+grafana.sh
+
+sudo apt-get install -y adduser libfontconfig1
+wget https://dl.grafana.com/enterprise/release/grafana-enterprise_9.4.7_amd64.deb
+sudo dpkg -i grafana-enterprise_9.4.7_amd64.deb
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable grafana-server
+sudo /bin/systemctl start grafana-server
+sudo /bin/systemctl status grafana-server --no-pager
+
+================================================================================================================================
+
+Amazon.sh
+
+#! /bin/bash
+yum install httpd git -y
+systemctl start httpd
+systemctl status httpd
+cd /var/www/html
+git clone https://github.com/Ironhack-Archive/online-clone-amazon.git
+mv online-clone-amazon/* .
+tail -f /var/log/httpd/access_log
+
+=========================================================================================
+
+ubuntu-docker.sh
+
+#!/bin/bash
+
+# Update the system
+apt-get update
+apt-get upgrade -y
+
+# Install Docker dependencies
+apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+
+# Add Docker's official GPG key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+# Add Docker repository
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Update package information and install Docker
+apt-get update
+apt-get install -y docker-ce docker-ce-cli containerd.io
+
+# Start Docker service
+systemctl start docker
+
+# Enable Docker to start on system boot
+systemctl enable docker
+
+=====================================================================================
+
+jfrog.sh
+
+#! /bin/bash
+sudo yum update -y
+sudo yum install java-1.8* -y
+sudo wget https://jfrog.bintray.com/artifactory/jfrog-artifactory-oss-6.9.6.zip
+sudo yum install unzip -y
+sudo unzip  jfrog-artifactory-oss-6.9.6.zip
+sudo sh jfrog-artifactory-oss-6.9.6/bin/artifactory.sh start
+
+
+============================================================================================================================================
