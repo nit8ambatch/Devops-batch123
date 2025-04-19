@@ -303,6 +303,63 @@ pipeline {
     }
 }
 
+Automated System Health Report Script
+
+pipeline {
+    agent any
+
+    environment {
+        REPORT_NAME = "system_health_report.txt"
+    }
+
+    stages {
+        stage('Generate System Health Report') {
+            steps {
+                script {
+                    sh '''
+                    echo "=============================" > $REPORT_NAME
+                    echo " System Health Report - $(date) " >> $REPORT_NAME
+                    echo "=============================" >> $REPORT_NAME
+
+                    echo -e "\\n🔸 CPU Load:" >> $REPORT_NAME
+                    uptime | awk -F'load average:' '{ print "Load Average (1, 5, 15 min):" $2 }' >> $REPORT_NAME
+
+                    echo -e "\\n🔸 Memory Usage:" >> $REPORT_NAME
+                    free -h | awk 'NR==2{printf "Used: %s / Total: %s\\n", $3, $2}' >> $REPORT_NAME
+
+                    echo -e "\\n🔸 Disk Usage (/ partition):" >> $REPORT_NAME
+                    df -h / | awk 'NR==2{printf "Used: %s / Total: %s (%s)\\n", $3, $2, $5}' >> $REPORT_NAME
+
+                    echo -e "\\n🔸 System Uptime:" >> $REPORT_NAME
+                    uptime -p >> $REPORT_NAME
+
+                    echo -e "\\n🔸 Currently Logged-in Users:" >> $REPORT_NAME
+                    who | awk '{print $1}' | sort | uniq >> $REPORT_NAME
+
+                    echo -e "\\n🔸 Top 5 CPU Consuming Processes:" >> $REPORT_NAME
+                    ps -eo pid,comm,%cpu --sort=-%cpu | head -n 6 >> $REPORT_NAME
+
+                    echo -e "\\n✅ Report Complete.\\n" >> $REPORT_NAME
+                    '''
+                }
+            }
+        }
+
+        stage('Archive Report') {
+            steps {
+                archiveArtifacts artifacts: "${REPORT_NAME}", fingerprint: true
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline completed. Report generated and archived."
+        }
+    }
+}
+
+
 tOMCAT SET UP BY USING MASTER AN SLAVE
  amazon-linux-extras install epel -y
     2  amazon-linux-extras install java-openjdk11 -y
