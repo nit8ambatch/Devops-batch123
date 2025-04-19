@@ -1,0 +1,122 @@
+Automated System Health Report Script :-
+
+#!/bin/bash
+
+echo "============================="
+echo " System Health Report - $(date) "
+echo "============================="
+
+# CPU Load
+echo -e "\n🔸 CPU Load:"
+uptime | awk -F'load average:' '{ print "Load Average (1, 5, 15 min):" $2 }'
+
+# Memory Usage
+echo -e "\n🔸 Memory Usage:"
+free -h | awk 'NR==2{printf "Used: %s / Total: %s\n", $3, $2}'
+
+# Disk Usage
+echo -e "\n🔸 Disk Usage (/ partition):"
+df -h / | awk 'NR==2{printf "Used: %s / Total: %s (%s)\n", $3, $2, $5}'
+
+# Uptime
+echo -e "\n🔸 System Uptime:"
+uptime -p
+
+# Logged in Users
+echo -e "\n🔸 Currently Logged-in Users:"
+who | awk '{print $1}' | sort | uniq
+
+# Top 5 CPU Consuming Processes
+echo -e "\n🔸 Top 5 CPU Consuming Processes:"
+ps -eo pid,comm,%cpu --sort=-%cpu | head -n 6
+
+echo -e "\n✅ Report Complete.\n"
+
+
+=================================================================================================
+
+
+Disk Usage Alert Script:-
+
+#!/bin/bash
+
+THRESHOLD=80
+USAGE=$(df / | grep / | awk '{print $5}' | sed 's/%//g')
+
+if [ "$USAGE" -ge "$THRESHOLD" ]; then
+    echo "⚠️ Disk usage is above $THRESHOLD%. Current: $USAGE%"
+    # Optionally send an email or alert
+else
+    echo "✅ Disk usage is under control: $USAGE%"
+fi
+
+
+====================================================
+
+Memory Leak Detector
+
+#!/bin/bash
+
+echo "🔍 Checking for memory hogs..."
+ps aux --sort=-%mem | awk 'NR<=10{print $0}'
+
+
+====================================================================================================
+
+Zombie Process Checker
+
+#!/bin/bash
+
+echo "☠️  Zombie Processes:"
+ps -eo pid,ppid,stat,cmd | grep -w Z
+
+
+=====================================================================================================
+
+Service Auto-Restart Script
+
+#!/bin/bash
+
+SERVICE="nginx"
+
+if systemctl is-active --quiet $SERVICE; then
+    echo "✅ $SERVICE is running."
+else
+    echo "❌ $SERVICE is down. Restarting..."
+    systemctl restart $SERVICE
+fi
+
+
+================================================
+
+
+User Login Monitor Script
+
+#!/bin/bash
+
+LOG="/var/log/user_login_monitor.log"
+echo "🕓 User login check at $(date)" >> $LOG
+who >> $LOG
+echo "------------------------" >> $LOG
+
+
+==================================================================================================
+
+Log Cleaner Script
+
+#!/bin/bash
+
+LOG_DIR="/var/log"
+find $LOG_DIR -name "*.log" -type f -mtime +7 -exec rm -f {} \;
+echo "🧹 Old logs cleaned up from $LOG_DIR"
+
+
+=====================================================================================
+
+Cron Setup
+
+0 * * * * /path/to/system_health_full.sh >> /var/log/health_report.log 2>&1
+
+
+
+
