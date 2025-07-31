@@ -182,3 +182,62 @@ to remove buffer cache in linux
 sudo sync; echo 1 > /proc/sys/vm/drop_caches
 sudo sync; echo 2 > /proc/sys/vm/drop_caches
 sudo sync; echo 3 > /proc/sys/vm/drop_caches
+
+
+
+1. Basics of Linux
+
+History of Linux and distributions (RHEL, Ubuntu, CentOS, etc.)
+Linux architecture (Kernel, Shell, Filesystem)
+Linux boot process (BIOS → GRUB → Kernel → init/systemd)
+Runlevels / Systemd targets
+Basic Linux commands (ls, cd, cp, mv, rm, etc.)
+Shell types (bash, sh, zsh)
+
+2. File System Management
+
+Filesystem hierarchy structure (/etc, /var, /home, etc.)
+File types and permissions
+Hard links and symbolic links
+Disk partitions and file systems (ext3, ext4, xfs, btrfs)
+Mounting and unmounting file systems
+fstab configuration
+df, du, mount, umount, lsblk, blkid
+
+3. User and Group Management
+
+Creating and managing users (useradd, passwd, usermod)
+Group management (groupadd, gpasswd)
+File permissions (r, w, x)
+chmod, chown, chgrp
+SUID, SGID, Sticky bit
+/etc/passwd, /etc/shadow, /etc/group, /etc/sudoers
+
+4. Process and Service Management
+
+Viewing and managing processes (ps, top, htop, nice, renice)
+Foreground vs background processes
+Signals and killing processes (kill, killall, xkill)
+Managing services (systemctl, service, init.d)
+Crontab and scheduled jobs (cron, at, anacron)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
