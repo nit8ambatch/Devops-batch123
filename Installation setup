@@ -179,7 +179,19 @@ aws configure
 
 =======================================================================================================================
 
+whataspp.sh
 
+#! /bin/bash
+apt update -y
+apt upgrade -y
+apt install apache2 git -y
+systemctl start apache2
+systemctl status apache2
+chkconfig httpd on
+cd /var/www/html
+git clone  https://github.com/hamsahmedansari/axiom-whatsapp-ui-homePage.git
+mv axiom-whatsapp-ui-homePage/* .
+tail -100f /var/log/httpd/access_log
 
 
 
