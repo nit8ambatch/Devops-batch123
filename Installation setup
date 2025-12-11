@@ -193,6 +193,24 @@ git clone  https://github.com/hamsahmedansari/axiom-whatsapp-ui-homePage.git
 mv axiom-whatsapp-ui-homePage/* .
 tail -100f /var/log/httpd/access_log
 
+====================================================================
+
+swiggy.sh
+
+#!/bin/bash
+apt update -y
+apt install apache2 git -y
+systemctl start apache2
+systemctl status apache2
+cd /var/www/html
+git clone https://github.com/karishma1521success/swiggy-clone.git
+mv swiggy-clone/* .
+systemctl restart apache2
+tail -f /var/log/apache2/access.log
+
+
+============================
+
 
 
 
